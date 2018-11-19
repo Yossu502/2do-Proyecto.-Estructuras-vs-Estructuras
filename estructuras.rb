@@ -99,4 +99,4 @@ begin
         puts 'Opcion invalida'
         Funciones.continuar
     end
-end while n != 4
+end while n !=4

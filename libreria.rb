@@ -91,3 +91,105 @@ module Funciones
         puts table if mostrar == true
         return {resultado: cola, pasos: paso}
     end
+
+    def self.ordenamiento_pila(apartado, mostrar)
+        rows = []
+        table = Terminal::Table.new :rows => rows 
+        table.title = "PILA - PASO A PASO"
+        table.headings = ['Iteracion', 'Estructura']
+        pasoapaso = mostrar
+        paso = 0
+        size = apartado.size - 1
+        pila = Pila.new
+        for x in 0..size
+            if pila.tope == nil
+                pila.insertar(apartado[x])
+                pasoapaso = mostrar_paso(paso, pasoapaso, pila, table)
+                paso += 1
+            elsif apartado[x] < pila.tope.valor
+                pilaauxiliar = Pila.new
+                a = pila.tope
+                while a != nil
+                    if a.valor < apartado[x]
+                        pila.insertar(apartado[x])
+                        pasoapaso = mostrar_paso(paso, pasoapaso, pila, table)
+                        paso += 1
+                        break
+                    end
+                    pilaauxiliar.insertar(a.valor)
+                    a = a.siguiente
+                    pila.eliminar
+                    pasoapaso = mostrar_paso(paso, pasoapaso, pila, table)
+                    paso += 1
+                    if a == nil
+                        pila.insertar(apartado[x])
+                        pasoapaso = mostrar_paso(paso, pasoapaso, pila, table)
+                        paso += 1
+                    end
+                end
+                a = pilaauxiliar.tope
+                while a != nil
+                    pila.insertar(a.valor)
+                    pasoapaso = mostrar_paso(paso, pasoapaso, pila, table)
+                    paso += 1
+                    a = a.siguiente
+                end
+            else
+                pila.insertar(apartado[x])
+                pasoapaso = mostrar_paso(paso, pasoapaso, pila, table)
+                paso += 1
+            end
+        end
+        puts table if mostrar == true
+        return {resultado: pila, pasos: paso}
+    end
+
+    def self.ordenamiento_lista(apartado, mostrar)
+        rows = []
+        table = Terminal::Table.new :rows => rows
+        table.title = "LISTA - PASO A PASO"
+        table.headings = ['Iteracion', 'Estructura']
+        pasoapaso = mostrar
+        paso = 0
+        size = apartado.size - 1
+        lista = Lista.new
+        for x in 0..size
+            if lista.tope == nil
+                lista.insertar(apartado[x])
+                pasoapaso = mostrar_paso(paso, pasoapaso, lista, table)
+                paso += 1
+            else
+                a = lista.tope
+                while a != nil
+                    if a.siguiente == nil 
+                        if a.valor < apartado[x]
+                            lista.insertar_despues(apartado[x], a.valor)
+                            pasoapaso = mostrar_paso(paso, pasoapaso, lista, table)
+                            paso += 1
+                            break 
+                        else
+                            lista.insertar_antes(apartado[x], a.valor)
+                            pasoapaso = mostrar_paso(paso, pasoapaso, lista, table)
+                            paso += 1
+                            break 
+                        end
+                    elsif a.valor <= apartado[x] && a.siguiente.valor >= apartado[x]
+                        lista.insertar_despues(apartado[x], a.valor)
+                        pasoapaso = mostrar_paso(paso, pasoapaso, lista, table)
+                        paso += 1
+                        break
+                    elsif a.valor >= apartado[x]
+                        lista.insertar_antes(apartado[x], a.valor)
+                        pasoapaso = mostrar_paso(paso, pasoapaso, lista, table)
+                        paso += 1
+                        break
+                    else
+                        a = a.siguiente
+                    end
+                end
+            end
+        end
+        puts table if mostrar == true
+        return {resultado: lista, pasos: paso}
+    end
+end

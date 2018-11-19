@@ -32,7 +32,6 @@ def ejecutar_ordenamiento
             mayor = rows[x][1].to_f
         end
     end
-    puts mayor
     for x in 0..2
         rows[x][2] = (mayor / rows[x][1]) * 100.00
     end

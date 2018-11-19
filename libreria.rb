@@ -193,3 +193,141 @@ module Funciones
         return {resultado: lista, pasos: paso}
     end
 end
+
+class Elemento
+    attr_accessor :valor, :siguiente
+    def initialize(valor)
+        @valor = valor
+        @siguiente = nil
+    end
+end
+
+class Pila
+    attr_accessor :tope
+    def initialize
+        @tope = nil
+    end
+
+    def insertar(valor)
+        elemento = Elemento.new(valor)
+        elemento.siguiente = @tope
+        @tope = elemento
+    end
+
+    def eliminar
+        @tope = @tope.siguiente
+    end
+
+    def to_s
+        cadena = ''
+        a = @tope
+        while a != nil
+            if a.siguiente != nil
+                cadena += "#{a.valor} => "
+            else
+                cadena += "#{a.valor}"
+            end
+            a = a.siguiente
+        end
+        return cadena
+    end
+end
+
+class Cola
+    attr_accessor :tope, :fondo
+    def initialize
+        @tope = nil
+        @fondo = nil
+    end
+
+    def insertar(valor)
+        elemento = Elemento.new(valor)
+        a = @tope
+        begin
+            if a == nil
+                @tope = elemento
+                @fondo = elemento
+                break
+            elsif a.siguiente == nil
+                a.siguiente = elemento
+                @fondo = elemento
+                break
+            else
+                a = a.siguiente
+            end
+        end while a != nil
+    end
+
+    def eliminar
+        @tope = @tope.siguiente
+    end
+
+    def to_s
+        cadena = ''
+        a = @tope
+        while a != nil
+            if a.siguiente != nil
+                cadena += "#{a.valor} => "
+            else
+                cadena += "#{a.valor}"
+            end
+            a = a.siguiente
+        end
+        return cadena
+    end
+end
+
+class Lista
+    attr_accessor :tope, :fondo
+    def initialize
+        @tope = nil
+        @fondo = nil
+    end
+
+    def insertar(valor)
+        elemento = Elemento.new(valor)
+        @fondo = elemento
+        @tope = elemento
+    end
+
+    def insertar_despues(valor, referencia)
+        elemento = Elemento.new(valor)
+        a = @tope
+        while a != nil
+            if a.valor == referencia
+                elemento.siguiente = a.siguiente
+                a.siguiente = elemento
+                @fondo = elemento if elemento.siguiente == nil
+                break
+            end
+            a = a.siguiente
+        end
+    end
+
+    def insertar_antes(valor, referencia)
+        elemento = Elemento.new(valor)
+        a = @tope
+        while a != nil
+            if a.valor == referencia
+                insertar_despues(a.valor, a.valor)
+                a.valor = valor
+                break
+            end
+            a = a.siguiente
+        end
+    end
+
+    def to_s
+        cadena = ''
+        a = @tope
+        while a != nil
+            if a.siguiente != nil
+                cadena += "#{a.valor} => "
+            else
+                cadena += "#{a.valor}"
+            end
+            a = a.siguiente
+        end
+        return cadena
+    end
+end
